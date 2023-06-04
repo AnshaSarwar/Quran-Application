@@ -4,6 +4,7 @@ import java.util.List;
 
 
 public class ParahSurah {
+
     public int [] PSP = {
             1,
             150,
