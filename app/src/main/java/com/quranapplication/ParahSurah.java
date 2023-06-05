@@ -4,8 +4,6 @@ import java.util.List;
 
 
 public class ParahSurah {
-    ParahSurah ps = new ParahSurah();
-
     public int [] PSP = {
             1,
             150,
@@ -581,20 +579,6 @@ public class ParahSurah {
 
     public int getParahStart(int parahNumber) {
         return PSP[parahNumber];
-    }
-
-    public int getAyatCount(int surahIndex) {
-        int ayatCount = 0;
-
-        // Assuming you have a SurahData class that contains surah names
-        String[] surahNames = ps.englishSurahNames;
-
-
-        if (surahIndex >= 0 && surahIndex < surahNames.length) {
-            ayatCount = surahAyatCount[surahIndex];
-        }
-
-        return ayatCount;
     }
 }
 

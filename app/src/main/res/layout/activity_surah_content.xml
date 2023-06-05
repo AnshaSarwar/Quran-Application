@@ -10,19 +10,22 @@
     <EditText
         android:id="@+id/editTextAyatNumber"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="82dp"
+        android:autofillHints=""
         android:hint="Enter Ayat Number"
+        android:inputType="text"
         android:minHeight="48dp"
         android:textColorHint="#8D6E63"
-        android:inputType="text"
-        tools:ignore="TextFields,VisualLintTextFieldSize"
-        android:autofillHints="" />
+        tools:ignore="TextFields,VisualLintTextFieldSize" />
 
     <Button
         android:id="@+id/buttonSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search" />
+        android:layout_width="116dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:text="Search"
+        android:textSize="20sp"/>
+
     <TextView
         android:id="@+id/textViewSurahContent"
         android:layout_width="match_parent"
