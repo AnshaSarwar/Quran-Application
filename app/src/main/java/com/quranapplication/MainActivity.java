@@ -14,8 +14,8 @@ import com.quranapplication.ParahSurah;
 public class MainActivity extends AppCompatActivity {
 
     ListView ListViewSurahs;
-    ParahSurah ps = new ParahSurah();;
-    QuranData qd = new QuranData();;
+    ParahSurah ps = new ParahSurah();
+    QuranData qd = new QuranData();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(MainActivity.this, Surahcontent.class);
+                Intent intent = new Intent(MainActivity.this, SurahContentActivity.class);
                 intent.putExtra("selectedSurahIndex", position);
                 startActivity(intent);
 
