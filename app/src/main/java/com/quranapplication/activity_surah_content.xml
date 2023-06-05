@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".SurahContentActivity">
+
+    <TextView
+        android:id="@+id/textViewSurahContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>
+    activity_search_ayat.xml:
+
+    xml
+    Copy code
+    <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="16dp"
+tools:context=".SearchAyatActivity">
+
+<EditText
+    android:id="@+id/editTextAyatNumber"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Enter Ayat Number" />
+
+<Button
+    android:id="@+id/buttonSearch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Search" />
+
+<TextView
+    android:id="@+id/textViewAyat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>
+    Create the necessary Java classes:
+    MainActivity.java:
+
+    java
+    Copy code
+    import android.content.Intent;
+    import android.os.Bundle;
+    import android.view.View;
+    import android.widget.AdapterView;
+    import android.widget.ArrayAdapter;
+    import android.widget.ListView;
+
+    import androidx.appcompat.app.AppCompatActivity;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class MainActivity extends AppCompatActivity {
+    private ListView listViewSurahs;
+    private List<String> surahNames;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+
+listViewSurahs = findViewById(R.id.listViewSurahs);
+
+surahNames = new ArrayList<>();
+    surahNames.add("Surah 1");
+    surahNames.add("Surah 2");
+    // Add more surah names here
+
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, surahNames);
+        listViewSurahs.setAdapter(adapter);
+
+        listViewSurahs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String selectedSurah = surahNames.get(position);
+        Intent intent = new Intent(MainActivity.this, SurahContentActivity.class);
+        intent.putExtra("surahName", selectedSurah);
+        startActivity(intent);
+        }
+        });
+        }
+        }
+        SurahContentActivity.java:
+
+        java
+        Copy code
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.widget.TextView;
+
+        import androidx.appcompat.app.AppCompatActivity;
+
+        public class SurahContentActivity extends AppCompatActivity {
+        private TextView textViewSurahContent;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_surah_content);
+
+        textViewSurahContent = findViewById(R.id.textViewSurahContent);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+        String surahName = intent.getStringExtra("surahName");
+        String surahContent = getSurahContent(surahName);
+        textViewSurahContent.setText(surahContent);
+        }
+        }
+
+        private String getSurahContent(String surahName) {
+        // Retrieve the surah content based on the surahName
+        // Replace this with your logic to fetch the surah content
+        return "Surah Content for " + surahName;
+        }
+        }
+        SearchAyatActivity.java:
+
+        java
+        Copy code
+        import android.os.Bundle;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.TextView;
+
+        import androidx.appcompat.app.AppCompatActivity;
+
+        public class SearchAyatActivity extends AppCompatActivity {
+        private EditText editTextAyatNumber;
+        private Button buttonSearch;
+        private TextView textViewAyat;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_ayat);
+
+        editTextAyatNumber = findViewById(R.id.editTextAyatNumber);
+        buttonSearch = findViewById(R.id.buttonSearch);
+        textViewAyat = findViewById(R.id.textViewAyat);
+
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+        String ayatNumber = editTextAyatNumber.getText().toString();
+        String ayatContent = getAyatContent(ayatNumber);
+        textViewAyat.setText(ayatContent);
+        }
+        });
+        }
+
+        private String getAyatContent(String ayatNumber) {
+        // Retrieve the ayat content based on the ayatNumber
+        // Replace this with your logic to fetch the ayat content
+        return "Ayat Content for Ayat " + ayatNumber;
+        }
+        }
+        Declare the activities in the AndroidManifest.xml file:
+        xml
+        Copy code
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+            package="com.example.quranapp">
+
+            <application
+            ...>
+            <activity android:name=".MainActivity" />
+            <activity android:name=".SurahContentActivity" />
+            <activity android:name=".SearchAyatActivity" />
+            ...
+        </application>
+
+    </manifest>
+        Ensure that you replace com.example.quranapp with your package name.
+
+        Adjust the code according to your specific requirements, such as fetching the actual surah content and ayat content from your data source.
+        With these changes, you will have a Quran application with three pages: the first page displays the surah names, the second page displays the surah content, and the third page allows searching for ayat by entering the ayat number.
+
+
+
+
+
+        User
+        etrieve the surah content based on the surahName
+        // Replace this with your logic to fetch the surah content
+        ChatGPT
+        To fetch the surah content based on the surah name in your Quran application, you can implement a data source class or use a data structure to store the surah data. Here's an example of how you can modify the code to retrieve the surah content:
+
+        Create a new Java class called QuranData to act as a data source for your Quran application:
+        java
+        Copy code
+        public class QuranData {
+        private Map<String, String> surahData;
+
+        public QuranData() {
+        surahData = new HashMap<>();
+            // Add surah data to the map
+            surahData.put("Surah 1", "Surah 1 Content");
+            surahData.put("Surah 2", "Surah 2 Content");
+            // Add more surah data here
+            }
+
+            public String getSurahContent(String surahName) {
+            return surahData.get(surahName);
+            }
+            }
+            Modify the SurahContentActivity class to use the QuranData class to retrieve the surah content:
+            java
+            Copy code
+            public class SurahContentActivity extends AppCompatActivity {
+            private TextView textViewSurahContent;
+            private QuranData quranData;
+
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_surah_content);
+
+            textViewSurahContent = findViewById(R.id.textViewSurahContent);
+            quranData = new QuranData();
+
+            Intent intent = getIntent();
+            if (intent != null) {
+            String surahName = intent.getStringExtra("surahName");
+            String surahContent = quranData.getSurahContent(surahName);
+            textViewSurahContent.setText(surahContent);
+            }
+            }
+            }
+            In this example, the QuranData class acts as the data source for the surah content. The getSurahContent() method retrieves the content from the surahData map based on the provided surah name.
+
+            You can modify the QuranData class to suit your data structure or data source. For example, you could retrieve the surah content from a database, an API, or a local file.
+
+            Make sure to adjust the code according to your specific requirements and the structure of your Quran data source.
+
+
+
+
+
+            User
+            ode for quran application for 3 pages 1st page for listing surahs 2nd page for displaying surah content search ayat by entering ayat no and  3rd page for displaying ayat
+            ChatGPT
+            To create a Quran application with three pages in Android Studio, where the first page lists the surahs, the second page displays the surah content, and the third page allows searching for ayat by entering the ayat number and displays the ayat, you can follow the steps below:
+
+            Create the necessary layout files:
+            activity_main.xml:
+
+            xml
+            Copy code
+            <!-- This layout file will display the list of surahs -->
+            <!-- Add a ListView or RecyclerView to display the surah names -->
+            <!-- Add appropriate UI elements as per your design -->
+
+        </LinearLayout>
+        activity_surah_content.xml:
+
+        xml
+        Copy code
+        <!-- This layout file will display the content of a selected surah -->
+        <!-- Add a TextView or other suitable UI elements to display the surah content -->
+
+    </LinearLayout>
+    activity_search_ayat.xml:
+
+    xml
+    Copy code
+    <!-- This layout file will display the search functionality for ayat -->
+    <!-- Add an EditText and a Button for entering ayat number and performing search -->
+
+</LinearLayout>
+activity_display_ayat.xml:
+
+xml
+Copy code
+<!-- This layout file will display the ayat content -->
+<!-- Add a TextView or other suitable UI elements to display the ayat content -->
+
+</LinearLayout>
+    Create the necessary Java classes:
+    MainActivity.java:
+
+    java
+    Copy code
+    public class MainActivity extends AppCompatActivity {
+    // Initialize necessary variables
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    // Set up the ListView or RecyclerView to display the surah names
+    // Add appropriate click listeners to handle item selection
+    // On item click, launch the SurahContentActivity and pass the selected surah data
+    }
+    }
+    SurahContentActivity.java:
+
+    java
+    Copy code
+    public class SurahContentActivity extends AppCompatActivity {
+    // Initialize necessary variables
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_surah_content);
+
+    // Retrieve the selected surah data from the intent
+    // Display the surah content in the appropriate UI elements
+    }
+    }
+    SearchAyatActivity.java:
+
+    java
+    Copy code
+    public class SearchAyatActivity extends AppCompatActivity {
+    // Initialize necessary variables
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_search_ayat);
+
+    // Set up the EditText and Button for ayat number input and search functionality
+    // On search button click, retrieve the entered ayat number and perform search
+    // Launch the DisplayAyatActivity and pass the ayat data to display
+    }
+    }
+    DisplayAyatActivity.java:
+
+    java
+    Copy code
+    public class DisplayAyatActivity extends AppCompatActivity {
+    // Initialize necessary variables
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_display_ayat);
+
+    // Retrieve the ayat data from the intent
+    // Display the ayat content in the appropriate UI elements
+    }
+    }
+    Declare the activities in the AndroidManifest.xml file:
+    xml
+    Copy code
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.example.quranapp">
+
+<application
+...>
+<activity android:name=".MainActivity" />
+<activity android:name=".SurahContentActivity" />
+<activity android:name=".SearchAyatActivity" />
+<activity android:name=".DisplayAyatActivity" />
+...
+</application>
+
+    </manifest>
+    Ensure that you replace com.example.quranapp with your package name.
+
+    Adjust the code according to your specific requirements, such as retrieving the actual surah content and ayat content from your data source.
+    With these changes, you
+
+
+
+
+
+    User
+    detailedcode for above
+    ChatGPT
+    Sure! Here's a detailed code implementation for the Quran application with three pages:
+
+    MainActivity.java:
+
+    java
+    Copy code
+    public class MainActivity extends AppCompatActivity {
+    private ListView listViewSurahs;
+    private String[] surahNames;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    listViewSurahs = findViewById(R.id.listViewSurahs);
+
+    // Replace this with your logic to retrieve the surah names
+    surahNames = QuranData.getSurahNames();
+
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, surahNames);
+    listViewSurahs.setAdapter(adapter);
+
+    listViewSurahs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    String selectedSurah = surahNames[position];
+    Intent intent = new Intent(MainActivity.this, SurahContentActivity.class);
+    intent.putExtra("surahName", selectedSurah);
+    startActivity(intent);
+    }
+    });
+    }
+    }
+    SurahContentActivity.java:
+
+    java
+    Copy code
+    public class SurahContentActivity extends AppCompatActivity {
+    private TextView textViewSurahContent;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_surah_content);
+
+    textViewSurahContent = findViewById(R.id.textViewSurahContent);
+
+    Intent intent = getIntent();
+    if (intent != null) {
+    String surahName = intent.getStringExtra("surahName");
+    String surahContent = QuranData.getSurahContent(surahName);
+    textViewSurahContent.setText(surahContent);
+    }
+    }
+    }
+    SearchAyatActivity.java:
+
+    java
+    Copy code
+    public class SearchAyatActivity extends AppCompatActivity {
+    private EditText editTextAyatNumber;
+    private Button buttonSearch;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_search_ayat);
+
+    editTextAyatNumber = findViewById(R.id.editTextAyatNumber);
+    buttonSearch = findViewById(R.id.buttonSearch);
+
+    buttonSearch.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+    String ayatNumber = editTextAyatNumber.getText().toString();
+    String ayatContent = QuranData.getAyatContent(ayatNumber);
+
+    if (ayatContent != null) {
+    Intent intent = new Intent(SearchAyatActivity.this, DisplayAyatActivity.class);
+    intent.putExtra("ayatContent", ayatContent);
+    startActivity(intent);
+    } else {
+    Toast.makeText(SearchAyatActivity.this, "Ayat not found", Toast.LENGTH_SHORT).show();
+    }
+    }
+    });
+    }
+    }
+    DisplayAyatActivity.java:
+
+    java
+    Copy code
+    public class DisplayAyatActivity extends AppCompatActivity {
+    private TextView textViewAyatContent;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_display_ayat);
+
+    textViewAyatContent = findViewById(R.id.textViewAyatContent);
+
+    Intent intent = getIntent();
+    if (intent != null) {
+    String ayatContent = intent.getStringExtra("ayatContent");
+    textViewAyatContent.setText(ayatContent);
+    }
+    }
+    }
+    Make sure to replace the QuranData class with your actual implementation to fetch the surah names, surah content, and ayat content from your data source. Also, update the layout files activity_main.xml, activity_surah_content.xml, activity_search_ayat.xml, and activity_display_ayat.xml according to your desired UI design.
+
+    This code provides the basic functionality for the three pages
+
+
+
+
+
+
