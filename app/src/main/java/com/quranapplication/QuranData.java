@@ -1,5 +1,6 @@
 package com.quranapplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuranData {
@@ -6359,11 +6360,14 @@ public class QuranData {
     // String[] subset = Arrays.copyOfRange(QuranArabicText, 10, 20);
 
     public String[] GetData(int StartIndex, int EndIndex) {
-        List<String> listTemp = null;
+        List<String> listTemp = new ArrayList<>();
 
         for (int i = StartIndex; i < EndIndex; i++) {
-            listTemp.add(QuranArabicText[i].toString());
+            if (i >= 0 && i < QuranArabicText.length) {
+                listTemp.add(QuranArabicText[i]);
+            }
         }
+
         String[] list = listTemp.toArray(new String[]{});
 
         return list;

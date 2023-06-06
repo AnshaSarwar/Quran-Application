@@ -1,21 +1,22 @@
 package com.quranapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
-import com.quranapplication.QuranData;
-import com.quranapplication.ParahSurah;
+
+import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     ListView ListViewSurahs;
     ParahSurah ps = new ParahSurah();
-    QuranData qd = new QuranData();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,22 +32,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView textView = (TextView) super.getView(position, convertView, parent);
-                String surahEnglish = ps.englishSurahNames[position];
-                String surahText = surahEnglish;
+                String surahText = ps.englishSurahNames[position];
                 textView.setText(surahText);
                 return textView;
             }
         };
         ListViewSurahs.setAdapter(surahAdapter);
-        ListViewSurahs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ListViewSurahs.setOnItemClickListener((parent, view, position, id) -> {
 
-                Intent intent = new Intent(MainActivity.this, SurahContentActivity.class);
-                intent.putExtra("selectedSurahIndex", position);
-                startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, SurahContentActivity.class);
+            intent.putExtra("selectedSurahIndex", position);
+            startActivity(intent);
 
-            }
         });
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Landscape mode
+            setContentView(R.layout.activity_main_land);
+
+            ListView ListViewSurahs = findViewById(R.id.listViewSurahs);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Portrait mode
+            setContentView(R.layout.activity_main);
+
+            ListView ListViewSurahs = findViewById(R.id.listViewSurahs);
+        }
     }
 }

@@ -1,10 +1,10 @@
 package com.quranapplication;
 
+import java.util.Collections;
 import java.util.List;
 
 
-public class ParahSurah {
-    public int [] PSP = {
+public class ParahSurah { public int [] PSP = {
             1,
             150,
             261,
@@ -568,8 +568,7 @@ public class ParahSurah {
 
     public List<String> GetSurahNames() {
         List<String> list = null;
-        for (int index = 0; index < urduSurahNames.length; ++index)
-            list.add(urduSurahNames[index]);
+        Collections.addAll(list, urduSurahNames);
         return list;
     }
 
